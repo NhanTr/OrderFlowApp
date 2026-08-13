@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+import { type Href, useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
   ActivityIndicator,
@@ -270,7 +270,7 @@ function RecentOrders({ orders }: { orders: OrderSummary[] }) {
               <Pressable
                 accessibilityRole="button"
                 key={order.id}
-                onPress={() => router.push(`./orders/${order.id}`)}
+                onPress={() => router.push(`/orders/${order.id}` as Href)}
                 style={({ pressed }) => [styles.orderRow, pressed && styles.orderRowPressed]}>
                 <View style={styles.flexOne}>
                   <Text style={styles.orderCode}>{order.orderCode}</Text>

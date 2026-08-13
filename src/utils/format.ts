@@ -12,6 +12,22 @@ export function formatMoney(value: Money | null) {
   return Number.isFinite(numericValue) ? currencyFormatter.format(numericValue) : '—';
 }
 
+export function multiplyMoney(value: Money, quantity: number): Money {
+  const sign = value.startsWith('-') ? '-' : '';
+  const unsigned = sign ? value.slice(1) : value;
+  const [integer = '0', fraction = ''] = unsigned.split('.');
+  const digits = `${integer}${fraction}`;
+
+  if (!/^\d+$/.test(digits) || !Number.isSafeInteger(quantity)) return value;
+
+  const product = BigInt(digits) * BigInt(quantity);
+  if (fraction.length === 0) return `${sign}${product}`;
+
+  const padded = product.toString().padStart(fraction.length + 1, '0');
+  const splitAt = padded.length - fraction.length;
+  return `${sign}${padded.slice(0, splitAt)}.${padded.slice(splitAt)}`;
+}
+
 export function formatDateTime(value: string | null) {
   if (!value) return '—';
   const date = new Date(value);
