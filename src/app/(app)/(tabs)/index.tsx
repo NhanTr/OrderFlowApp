@@ -1,11 +1,5 @@
-import { FeaturePlaceholder } from '@/components/feature-placeholder';
+import { DashboardView } from '@/features/dashboard/DashboardView';
 
 export default function DashboardScreen() {
-  return (
-    <FeaturePlaceholder
-      eyebrow="TỔNG QUAN"
-      title="Dashboard quản lý"
-      description="KPI, biểu đồ doanh thu, tình trạng vận hành và cảnh báo sẽ hiển thị tại đây."
-    />
-  );
+  return <DashboardView />;
 }
