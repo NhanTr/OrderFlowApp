@@ -9,11 +9,22 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       },
     },
   ];
+  const secureStorePlugin: NonNullable<ExpoConfig['plugins']>[number] = [
+    'expo-secure-store',
+    { configureAndroidBackup: true },
+  ];
 
   return {
     ...config,
     name: config.name ?? 'Order Flow Manager',
     slug: config.slug ?? 'order-flow-manager',
-    plugins: [...(config.plugins ?? []), buildPropertiesPlugin],
+    ios: {
+      ...config.ios,
+      config: {
+        ...config.ios?.config,
+        usesNonExemptEncryption: false,
+      },
+    },
+    plugins: [...(config.plugins ?? []), secureStorePlugin, buildPropertiesPlugin],
   };
 };

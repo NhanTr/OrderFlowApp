@@ -3,6 +3,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import '@/auth/session';
 import { AppColors } from '@/theme/tokens';
 
 SplashScreen.preventAutoHideAsync();
