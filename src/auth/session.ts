@@ -6,11 +6,17 @@ import type { AuthSession, AuthUser } from '@/types';
 import { refreshTokenStore, type RefreshTokenStore } from './tokenStore';
 
 type RefreshEndpoints = Pick<ReturnType<typeof createAuthEndpoints>, 'refresh'>;
+type SessionListener = () => void;
+
+export type SessionSnapshot = {
+  user: AuthUser | null;
+};
 
 export class AuthSessionManager {
   private accessToken: string | null = null;
+  private readonly listeners = new Set<SessionListener>();
   private refreshPromise: Promise<string> | null = null;
-  private user: AuthUser | null = null;
+  private snapshot: SessionSnapshot = { user: null };
 
   constructor(
     private readonly refreshEndpoints: RefreshEndpoints,
@@ -22,14 +28,25 @@ export class AuthSessionManager {
   }
 
   getUser() {
-    return this.user;
+    return this.snapshot.user;
+  }
+
+  getSnapshot = () => this.snapshot;
+
+  subscribe = (listener: SessionListener) => {
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
+  };
+
+  getRefreshToken() {
+    return this.tokenStore.get();
   }
 
   async establish(session: AuthSession) {
     this.assertOwner(session.user);
     await this.tokenStore.set(session.refreshToken);
     this.accessToken = session.accessToken;
-    this.user = session.user;
+    this.updateUser(session.user);
   }
 
   async restore() {
@@ -37,7 +54,7 @@ export class AuthSessionManager {
     if (!refreshToken) return null;
 
     await this.refreshAccessToken(refreshToken);
-    return this.user;
+    return this.snapshot.user;
   }
 
   refreshAccessToken(refreshToken?: string) {
@@ -52,8 +69,14 @@ export class AuthSessionManager {
 
   async clear() {
     this.accessToken = null;
-    this.user = null;
+    this.updateUser(null);
     await this.tokenStore.clear();
+  }
+
+  private updateUser(user: AuthUser | null) {
+    if (this.snapshot.user === user) return;
+    this.snapshot = { user };
+    this.listeners.forEach((listener) => listener());
   }
 
   private assertOwner(user: AuthUser) {
@@ -83,7 +106,7 @@ export class AuthSessionManager {
         await this.clear();
       } catch {
         this.accessToken = null;
-        this.user = null;
+        this.updateUser(null);
       }
       throw error;
     }
