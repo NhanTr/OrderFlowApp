@@ -1,56 +1,68 @@
-# Welcome to your Expo app 👋
+# Order Flow Manager
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Ứng dụng Expo SDK 57 dành cho chủ quán, dùng Expo Router và API thật của Order Flow.
 
-## Get started
-
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Chạy local
 
 ```bash
-npm run reset-project
+npm install
+cp .env.example .env.local
+npx expo start --dev-client
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Cập nhật `EXPO_PUBLIC_API_BASE_URL` trong `.env.local` theo thiết bị:
 
-### Other setup steps
+- Điện thoại thật: IP LAN của máy chạy backend, ví dụ `http://192.168.1.10:3001/api/v1`.
+- iOS Simulator: `http://127.0.0.1:3001/api/v1`.
+- Android Emulator: `http://10.0.2.2:3001/api/v1`.
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+Không dùng `localhost` trên điện thoại thật và không đặt secret trong biến `EXPO_PUBLIC_*`.
 
-## Learn more
+## Build profiles
 
-To learn more about developing your project with Expo, look at the following resources:
+| Profile | Variant | Phân phối | API |
+| --- | --- | --- | --- |
+| `development` | Dev Client | Internal, thiết bị thật | HTTP LAN được phép |
+| `development-simulator` | Dev Client | iOS Simulator | HTTP local được phép |
+| `staging` | Release-like | Internal (`.apk` trên Android) | Bắt buộc HTTPS |
+| `production` | Store | App Store/Google Play | Bắt buộc HTTPS |
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Development, staging và production có tên ứng dụng, scheme và application identifier riêng, nên có thể cài cạnh nhau. Chỉ development bật cleartext traffic và quyền kết nối mạng local.
 
-## Join the community
+### Cấu hình EAS Environment variables
 
-Join our community of developers creating universal apps.
+Đăng nhập và liên kết project Expo trước lần build cloud đầu tiên:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+npx eas-cli login
+npx eas-cli init
+```
+
+Đặt URL HTTPS công khai. Profile staging dùng EAS environment `preview`:
+
+```bash
+npx eas-cli env:create --environment preview --name EXPO_PUBLIC_API_BASE_URL --value https://staging-api.example.com/api/v1 --visibility plaintext
+npx eas-cli env:create --environment production --name EXPO_PUBLIC_API_BASE_URL --value https://api.example.com/api/v1 --visibility plaintext
+```
+
+Các URL phía client không phải secret và sẽ được đóng vào bundle. Không đưa token, JWT secret, bot secret hoặc credential backend vào EAS client environment.
+
+### Tạo build
+
+```bash
+npx eas-cli build --profile development --platform all
+npx eas-cli build --profile development-simulator --platform ios
+npx eas-cli build --profile staging --platform all
+npx eas-cli build --profile production --platform all
+```
+
+Production mặc định tạo artifact dành cho store. Staging tạo bản internal để cài và kiểm thử trước khi phát hành.
+
+## Kiểm tra chất lượng
+
+```bash
+npm test
+npm run typecheck
+npm run lint
+npx expo install --check
+```
