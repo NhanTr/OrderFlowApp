@@ -1,5 +1,5 @@
-import { FeaturePlaceholder } from '@/components/feature-placeholder';
+import { MenuItemDetailView } from '@/features/catalog/MenuItemDetailView';
 
 export default function MenuItemDetailScreen() {
-  return <FeaturePlaceholder title="Chi tiết món" description="Màn hình chỉ đọc." />;
+  return <MenuItemDetailView />;
 }
