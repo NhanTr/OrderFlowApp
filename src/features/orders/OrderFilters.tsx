@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   label: { color: AppColors.text, fontSize: Typography.caption, fontWeight: '700' },
   chips: { gap: Spacing.sm, paddingRight: Spacing.lg },
   chip: {
-    minHeight: 40,
+    minHeight: 44,
     justifyContent: 'center',
     paddingHorizontal: Spacing.md,
     borderWidth: 1,

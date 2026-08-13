@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
   filterArea: { gap: Spacing.sm },
   chips: { gap: Spacing.sm, paddingRight: Spacing.lg },
   chip: {
-    minHeight: 40,
+    minHeight: 44,
     justifyContent: 'center',
     paddingHorizontal: Spacing.md,
     borderWidth: 1,

@@ -28,7 +28,13 @@ export function MenuItemDetailView() {
       <Stack.Screen options={{ title: item.name }} />
       <ScrollView contentContainerStyle={styles.content}>
         {item.imageUrl ? (
-          <Image contentFit="cover" source={item.imageUrl} style={styles.heroImage} transition={180} />
+          <Image
+            accessibilityLabel={`Ảnh món ${item.name}`}
+            contentFit="cover"
+            source={item.imageUrl}
+            style={styles.heroImage}
+            transition={180}
+          />
         ) : (
           <View style={styles.imagePlaceholder}>
             <Text style={styles.placeholderText}>ORDER FLOW</Text>

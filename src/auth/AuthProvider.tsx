@@ -13,6 +13,7 @@ import {
 import { authEndpoints } from '@/api/endpoints/auth';
 import type { LoginRequestDto } from '@/api/dto';
 import type { AuthUser } from '@/types';
+import { clearPersistedQueryCache } from '@/query/persistence';
 
 import { authSession } from './session';
 
@@ -50,6 +51,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
     };
   }, []);
 
+  useEffect(() => {
+    if (!isRestoring && session.user === null) {
+      queryClient.clear();
+      void clearPersistedQueryCache();
+    }
+  }, [isRestoring, queryClient, session.user]);
+
   const login = useCallback(async (credentials: LoginRequestDto) => {
     const nextSession = await authEndpoints.login(credentials);
     await authSession.establish(nextSession);
@@ -63,7 +71,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       }
     } finally {
       queryClient.clear();
-      await authSession.clear();
+      await Promise.allSettled([authSession.clear(), clearPersistedQueryCache()]);
     }
   }, [queryClient]);
 

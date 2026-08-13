@@ -179,7 +179,13 @@ function MenuItemCard({ categoryName, item }: { categoryName?: string; item: Men
       onPress={() => router.push(`/menu/${item.id}` as Href)}
       style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}>
       {item.imageUrl ? (
-        <Image contentFit="cover" source={item.imageUrl} style={styles.image} transition={180} />
+        <Image
+          accessibilityLabel={`Ảnh món ${item.name}`}
+          contentFit="cover"
+          source={item.imageUrl}
+          style={styles.image}
+          transition={180}
+        />
       ) : (
         <View style={styles.imagePlaceholder}>
           <Text style={styles.imagePlaceholderText}>OF</Text>
@@ -249,7 +255,7 @@ const styles = StyleSheet.create({
   filterLabel: { color: AppColors.text, fontSize: Typography.caption, fontWeight: '700' },
   chips: { flexDirection: 'row', gap: Spacing.sm, paddingRight: Spacing.lg },
   chip: {
-    minHeight: 40,
+    minHeight: 44,
     justifyContent: 'center',
     paddingHorizontal: Spacing.md,
     borderWidth: 1,
