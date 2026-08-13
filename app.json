@@ -1,16 +1,24 @@
 {
   "expo": {
-    "name": "test",
-    "slug": "test",
+    "name": "Order Flow Manager",
+    "slug": "order-flow-manager",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "test",
-    "userInterfaceStyle": "automatic",
+    "scheme": "orderflow",
+    "userInterfaceStyle": "light",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "nhantr.OrderFlowManager",
+      "infoPlist": {
+        "NSLocalNetworkUsageDescription": "Order Flow cần kết nối với máy chủ quản lý trong cùng mạng Wi-Fi.",
+        "NSAppTransportSecurity": {
+          "NSAllowsLocalNetworking": true
+        }
+      }
     },
     "android": {
+      "package": "nhantr.orderflowmanager",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -28,7 +36,7 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
+          "backgroundColor": "#F1F5F9",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
