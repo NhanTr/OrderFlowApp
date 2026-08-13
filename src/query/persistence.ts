@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import type { PersistQueryClientOptions } from '@tanstack/react-query-persist-client';
 
-function isSafeToPersist(queryKey: readonly unknown[]) {
+export function isSafeToPersist(queryKey: readonly unknown[]) {
   const root = queryKey[0];
   if (root === 'dashboard' || root === 'categories' || root === 'menu-items') return true;
 
