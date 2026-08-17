@@ -2,6 +2,24 @@
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
+## UI Screenshots
+
+### Màn hình 1
+
+![Màn hình 1](assets/images/ui.jpg)
+
+### Màn hình 2
+
+![Màn hình 2](assets/images/ui2.jpg)
+
+### Màn hình 3
+
+![Màn hình 3](assets/images/ui3.jpg)
+
+### Màn hình 4
+
+![Màn hình 4](assets/images/ui4.jpg)
+
 ## Get started
 
 1. Install dependencies
