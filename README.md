@@ -2,6 +2,16 @@
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
+## Đội ngũ phát triển
+
+| Thành viên | Vai trò |
+| --- | --- |
+| Thái | Project Manager |
+| Khoa | Backend Developer |
+| Nhân | Backend Developer |
+| Đạt | Backend Developer |
+| Tâm | Backend Developer |
+
 ## UI Screenshots
 
 ### Màn hình 1
