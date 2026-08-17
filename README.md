@@ -78,7 +78,7 @@ Join our community of developers creating universal apps.
 | Thành viên | Vai trò |
 | --- | --- |
 | Thái | Project Manager |
-| Khoa | Mobile Developer |
+| Khoa | Backend Developer |
 | Nhân | Backend Developer |
-| Đạt | UI/UX Designer |
-| Tâm | QA Tester |
+| Đạt | Backend Developer |
+| Tâm | Backend Developer |
