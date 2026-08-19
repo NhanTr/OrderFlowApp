@@ -1,5 +1,5 @@
-import { FeaturePlaceholder } from '@/components/feature-placeholder';
+import { OrderDetailView } from '@/features/orders/OrderDetailView';
 
 export default function OrderDetailScreen() {
-  return <FeaturePlaceholder title="Chi tiết đơn hàng" description="Màn hình chỉ đọc." />;
+  return <OrderDetailView />;
 }

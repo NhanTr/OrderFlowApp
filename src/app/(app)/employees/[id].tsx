@@ -1,5 +1,5 @@
-import { FeaturePlaceholder } from '@/components/feature-placeholder';
+import { EmployeeDetailView } from '@/features/employees/EmployeeDetailView';
 
 export default function EmployeeDetailScreen() {
-  return <FeaturePlaceholder title="Chi tiết nhân viên" description="Màn hình chỉ đọc." />;
+  return <EmployeeDetailView />;
 }
