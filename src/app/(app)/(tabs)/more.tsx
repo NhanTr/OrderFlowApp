@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { ActivityIndicator, Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { type Href, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useAuth } from '@/auth/AuthProvider';
@@ -8,6 +9,7 @@ import { AppColors, Radius, Spacing, Typography } from '@/theme/tokens';
 
 export default function MoreScreen() {
   const { logout, user } = useAuth();
+  const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogout = async () => {
@@ -26,7 +28,24 @@ export default function MoreScreen() {
 
   return (
     <SafeAreaView edges={['left', 'right', 'bottom']} style={styles.safeArea}>
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Pressable
+          accessibilityHint="Mở danh sách nhân viên"
+          accessibilityRole="button"
+          onPress={() => router.push('/employees' as Href)}
+          style={({ pressed }) => [styles.navigationCard, pressed && styles.navigationCardPressed]}>
+          <View style={styles.navigationIcon}>
+            <Text style={styles.navigationIconText}>NV</Text>
+          </View>
+          <View style={styles.navigationText}>
+            <Text style={styles.navigationTitle}>Nhân viên</Text>
+            <Text style={styles.navigationDescription}>
+              Tìm kiếm và theo dõi tài khoản phục vụ, barista.
+            </Text>
+          </View>
+          <Text style={styles.chevron}>›</Text>
+        </Pressable>
+
         <View style={styles.card}>
           <Text style={styles.eyebrow}>TÀI KHOẢN OWNER</Text>
           <Text accessibilityRole="header" style={styles.name}>
@@ -50,7 +69,7 @@ export default function MoreScreen() {
             )}
           </Pressable>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -66,7 +85,32 @@ function Detail({ label, value }: { label: string; value: string }) {
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: AppColors.background },
-  container: { flex: 1, padding: Spacing.lg },
+  container: { flexGrow: 1, gap: Spacing.lg, padding: Spacing.lg, paddingBottom: Spacing.xxl },
+  navigationCard: {
+    minHeight: 96,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.md,
+    padding: Spacing.lg,
+    borderWidth: 1,
+    borderColor: AppColors.border,
+    borderRadius: Radius.lg,
+    backgroundColor: AppColors.surface,
+  },
+  navigationCardPressed: { backgroundColor: AppColors.background },
+  navigationIcon: {
+    width: 48,
+    height: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: Radius.md,
+    backgroundColor: AppColors.brandSoft,
+  },
+  navigationIconText: { color: AppColors.brandDark, fontSize: Typography.body, fontWeight: '800' },
+  navigationText: { flex: 1, gap: Spacing.xs },
+  navigationTitle: { color: AppColors.text, fontSize: Typography.title, fontWeight: '800' },
+  navigationDescription: { color: AppColors.textMuted, fontSize: Typography.caption, lineHeight: 18 },
+  chevron: { color: AppColors.textMuted, fontSize: Typography.heading },
   card: {
     gap: Spacing.lg,
     padding: Spacing.xl,

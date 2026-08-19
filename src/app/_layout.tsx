@@ -1,4 +1,4 @@
-import { QueryClientProvider } from '@tanstack/react-query';
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
@@ -6,6 +6,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AuthProvider, useAuth } from '@/auth/AuthProvider';
 import { queryClient } from '@/query/client';
+import { persistOptions } from '@/query/persistence';
+import { QueryLifecycleProvider } from '@/query/QueryLifecycleProvider';
 import { AppColors } from '@/theme/tokens';
 
 SplashScreen.preventAutoHideAsync();
@@ -49,11 +51,13 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <ThemeProvider value={navigationTheme}>
-        <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <RootNavigator />
-          </AuthProvider>
-        </QueryClientProvider>
+        <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
+          <QueryLifecycleProvider>
+            <AuthProvider>
+              <RootNavigator />
+            </AuthProvider>
+          </QueryLifecycleProvider>
+        </PersistQueryClientProvider>
       </ThemeProvider>
     </SafeAreaProvider>
   );

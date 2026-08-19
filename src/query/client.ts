@@ -13,6 +13,7 @@ function shouldRetry(failureCount: number, error: Error) {
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      gcTime: 1000 * 60 * 60 * 12,
       retry: shouldRetry,
       staleTime: 30_000,
     },
